@@ -1,0 +1,51 @@
+(define (incrementX min max fn inc)
+  (when (>= max min)
+    (fn min)
+    (incrementX (+ min inc) max fn inc)))
+
+(define (abs x)
+  (cond ((< x 0) (- x))
+        (else x)))
+
+(define (factorial n)
+    (if (<= n 0)
+        1
+        (* n (factorial (- n 1)))))
+    
+(define seriesLength 1)
+
+(define (sh x n)
+    (if (> n seriesLength)
+        0
+        (+ (/ (expt x n) (factorial n))
+           (sh x (+ n 2))
+           )))
+(define precision 0.0001)
+
+(define (error x)
+    (display "Похибка для х=")
+    (display x)
+    (display " між власною функцією та sinh = " )
+    (display (- (sh x 1) (sinh x)))
+    (newline))
+
+(define (precisionToLength x)
+    (while (< precision (abs (- (sinh x) (sh x 1) )))
+       (begin (set! seriesLength (+ seriesLength 1)))
+       ()))
+   
+(incrementX -3 3 (lambda (x)
+                     (set! seriesLength 1)
+                     (precisionToLength x)
+                     (error x)
+                      (display "f(")
+                      (display x )
+                       (display") = " )
+                   
+                     (if (and (<= -2 x) (<= x 0))
+                        (display (+ (sh x 1) (sh (+ x 2) 1)))
+                        
+                        (if (and (< 1 x) (<= x 2))
+                           (display (/ (expt (sh x 1) 2) (sh (expt x 3) 1)))
+                            ()))
+                    (newline)) 0.5)
