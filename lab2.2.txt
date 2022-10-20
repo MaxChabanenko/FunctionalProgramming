@@ -1,0 +1,8 @@
+(define (task n help iter)
+    (if (> iter n)
+        1
+         (+ help (/ 1 (task n (+ help 1) (+ iter 1))))
+           ))
+(define N (read))
+(newline)
+(display (/ 1 (task N 3 1)))
