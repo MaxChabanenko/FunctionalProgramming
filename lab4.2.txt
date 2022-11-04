@@ -1,14 +1,3 @@
-(define ships (list 0 0 0 0 0))
-
-(define replac
-  (lambda (s pos lst fin-lst)
-    (cond
-      ((zero? pos)
-       (append (reverse (cons s fin-lst)) (rest lst)))
-      (else
-       (replace s (- pos 1) (rest lst) (cons (first lst) fin-lst))))))
-   
-   
 (define (my-list-ref items n) 
      (if (= n 1) 
          (car items)
