@@ -1,0 +1,85 @@
+(require srfi/1)
+
+(define (randomlist n)
+  (for/list ((i n))
+  (list-ref (list (* -1 (random 10)) 0 (random 10)) (random 3))
+))
+
+(define (my-append lis1 lis2)
+  (cond ((null? lis1)
+         lis2)
+        (else
+         (cons (car lis1)
+               (my-append (cdr lis1) lis2)))))
+               
+(define (access-by-index items n) 
+     (if (= n 1) 
+         (car items)
+         (access-by-index (cdr items) (- n 1 ))))
+         
+            
+(define (index-of lst ele)
+  (let loop ((lst lst)
+             (idx 0))
+    (cond ((empty? lst) #f)
+          ((equal? (first lst) ele) idx)
+          (else (loop (rest lst) (add1 idx))))))
+
+(define (negative-first lst)
+(for/first ([i lst]
+              #:when (negative? i))
+     i))
+     
+(define (positive-first lst)
+(for/first ([i lst]
+              #:when (positive? i))
+     i))
+     
+(define (zero-first lst bound)
+(for/first ([i lst]
+              #:when (and (> (index-of lst i) bound) (zero? i)))
+     i))
+     
+(define (slice lst start end)
+  (take (drop lst start) (- end start)))
+  
+(define (firstTask lst)
+
+(define neg (index-of lst (negative-first lst)))
+(define zer (index-of lst 0))
+(define poz (index-of lst (positive-first lst)))
+(display "negative index = ")
+(writeln neg)
+(display "zero index = ")
+(writeln zer)
+(display "positive index = ")
+(writeln poz)
+
+(define fir -1)
+(define sec -1)
+
+(if (> neg zer)
+(set! fir (slice lst zer (+ neg 1)))
+(set! fir (slice lst neg (+ zer 1))))
+
+(if (> poz zer)
+(set! sec (slice lst zer (+ poz 1)))
+(set! sec (slice lst poz (+ zer 1))))
+
+(display "first part = ")
+(writeln fir)
+(display "second part = ")
+(writeln sec)
+(my-append fir sec)) 
+
+
+(define factorialList (list 1 2 6 24 120 720 5040 40320))
+(writeln "Створити цілочисловий список з додатних, від’ємних та нульових елементів, кількість елементів списку задана користувачем")
+(define myList (randomlist 15))
+(writeln myList)
+(writeln "Сформувати підсписок з елементів між першим від’ємним та нульовим елементом та між першим додатним та нульовим;")
+(writeln (firstTask myList))
+(writeln "Видалити нульові елементи списку;")
+(writeln (filter (lambda (x) (not (= x 0))) myList))
+(writeln "Здійснити пошук елемента, значення якого є факторіалом числа")
+(writeln (filter (lambda (x) (member x factorialList)) myList))
