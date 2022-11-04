@@ -1,0 +1,46 @@
+(define ships (list 0 0 0 0 0))
+
+(define replac
+  (lambda (s pos lst fin-lst)
+    (cond
+      ((zero? pos)
+       (append (reverse (cons s fin-lst)) (rest lst)))
+      (else
+       (replace s (- pos 1) (rest lst) (cons (first lst) fin-lst))))))
+   
+   
+(define (my-list-ref items n) 
+     (if (= n 1) 
+         (car items)
+         (my-list-ref (cdr items) (- n 1 ))))
+   
+(define (work n)
+(define myList (for/list ((i n))
+    (for/list ((j 2))
+    (+ 1 i))))
+(set! myList (flatten myList))
+(set! myList (take myList n) )
+(when (= (remainder n 2) 1)
+(set! myList (append (take myList (- n 1)) (+ (my-list-ref myList (- n 1)) 0.5))))
+(flatten myList))
+
+(define (Task n)
+(define lst (work n))
+(writeln lst)
+
+(display "min = ")
+(writeln 1)
+
+(display "max = ")
+(writeln (my-list-ref lst n))
+
+(display "avg = ")
+(define sum 0)
+(for ([e (in-list lst)])
+  (set! sum (+ sum e)))
+(writeln (/ sum n)))
+
+(display "Час проведений кораблями в порту ")
+(Task 5)
+(display "Час проведений кораблями в порту ")
+(Task 10)
