@@ -1,0 +1,66 @@
+;==========селектори дійсної та уявної частин компл числа=====
+(define (Myreal-part_A z) (car z))
+(define (Myimag-part_B z) (cdr z))
+;============ тригонометрична форма компл числа======== ==
+(define (square x)
+(* x x))
+
+(define (magnitude_R z)
+(sqrt (+ (square (Myreal-part_A z)) (square (Myimag-part_B z)))))
+
+(define pi 3.14159265359)
+
+(define (angle1 z)
+(cond
+[(> (Myreal-part_A z) 0) (atan ( / (Myimag-part_B z) (Myreal-part_A z)))]
+[(and (< (Myreal-part_A z) 0) (> (Myimag-part_B z) 0)) (+ pi (atan ( / (Myimag-part_B z) (Myreal-part_A z))))]
+[(and (< (Myreal-part_A z) 0) (< (Myimag-part_B z) 0)) (+ (* -1 pi) (atan ( / (Myimag-part_B z) (Myreal-part_A z))))]))
+
+(define (make-from-real-imag x y)
+  (cons x y))
+  
+(define (make-pokaz-from-imag z)
+  (cons (magnitude_R z) (angle1 z)))
+  
+(define(print-pokaz z)			
+  (print (car z))
+  (display "*e^i*")
+  (print (cdr z))
+  (newline))
+  
+(define(print-alg z)			
+  (print (car z))
+  (display "+i*")
+  (print (cdr z))
+  (newline))
+	
+(define (add-complex z1 z2)
+ (make-from-real-imag (+ (Myreal-part_A z1) (Myreal-part_A z2))
+    (+ (Myimag-part_B z1) (Myimag-part_B z2))))
+
+
+(define f1 (make-from-real-imag 4 7) )
+(define f2 (make-from-real-imag 5 9) )
+(define f3 (make-from-real-imag 8 11) )
+(define f4 (make-from-real-imag 14 6) )
+(define f5 (make-from-real-imag 2 4) )
+(define f6 (make-from-real-imag 1 3) )
+(define algList (list f1 f2 f3 f4 f5 f6))
+
+(display "20.2. Створити список з комплексних чисел, заданих в алгебраїчній формі  . Створити новий список, елементи якого є комплексні числа, переведені з алгебраїчної форми у показову форму комплексного числа. Визначити суму усіх елементів списку в показовій формі.")
+(newline)
+(display "Початковий список = ")
+(newline)
+(for ([e (in-list algList)])
+  (print-alg e))
+
+(display "Кінцевий список = ")
+(newline)
+(for ([e (in-list algList)])
+  (print-pokaz (make-pokaz-from-imag e)))
+  
+(define sum (make-from-real-imag 0 0))
+(for ([e (in-list algList)])
+  (set! sum (add-complex sum e)))
+(display "sum = ")
+(print-pokaz (make-pokaz-from-imag sum))
