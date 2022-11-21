@@ -1,0 +1,37 @@
+(define (isSquare n)
+(and (> n 0) (equal? (* (sqrt n) (sqrt n)) n)))
+
+;A number is Fibonacci if and only if one or both of (5*n^2 + 4) or (5*n^2 – 4) is a perfect square (4, 9, 16...). 
+(define (isFibonacci n)
+(and (> n 0) (or (isSquare (+ (* 5 (* n n)) 4)) (isSquare(- (* 5 (* n n)) 4)))))
+
+(define (isFact n i)
+(set! n (/ n i))
+(if (equal? n 1)
+#t
+(if (> 1 n)
+#f
+(isFact n (+ i 1)))))
+
+(define vector #(-4 -2 0 1 2 4 5 8 6 13 36 18 120 225))
+(writeln "Створити вектор чисел. Знайти серед елементів вектору ті, які є числами Фібоначчі, факторіалами або квадратами числа.\nПочатковий вектор = ")
+(display vector)
+(newline)
+
+(define fibList '())
+(define factList '())
+(define sqrList '())
+
+(for ([i vector])
+    (cond
+    [(isFibonacci i) (set! fibList(cons i fibList))]
+    [(isFact i 1) (set! factList(cons i factList))]
+    [(isSquare i) (set! sqrList(cons i sqrList))]))
+    
+(newline)
+(display "Числа Фібоначі = ")
+(writeln fibList)
+(display "Факторіали = ")
+(writeln factList)
+(display "Квадрати = ")
+(writeln sqrList)
