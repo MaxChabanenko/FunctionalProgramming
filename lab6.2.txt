@@ -1,0 +1,29 @@
+;==============доступ до елементів списку по номеру=======================
+(define (my-list-ref items n) 
+     (if (= n 0) 
+         (car items)
+         (my-list-ref (cdr items) (- n 1 ))))
+;==========кількість елементів списку=======================
+(define (my-length lis)
+   (cond ((null? lis)
+          0)
+         (else
+          (+ 1 (my-length (cdr lis))))))
+          
+          
+(define (triple-eq a b c)
+(and (equal? a b) (and (equal? a c) (equal? c b))
+))          
+
+    
+(writeln " Створити чергу з натуральних чисел, Визначити, чи можна з кожної трійки чисел утворити рівностороннього трикутник, вважаючи числа черги довжинами сторін трикутника. Якщо можна, обчислити та записати в нову чергу радіуси описаних кіл за формулою: r=a/sqrt(3) , де a – це довжина сторони рівностороннього трикутника.")
+(define Q '(1 2 1 1 1 3 4 5 5 5 6 7))
+(writeln Q)
+
+
+(define R '())
+(for ([i (my-length Q)])
+    (when (and (< i (- (my-length Q) 2))
+    (triple-eq (my-list-ref Q i) (my-list-ref Q (+ i 1)) (my-list-ref Q (+ i 2))))
+    (writeln (/(my-list-ref Q i) (sqrt 3)))))
+
