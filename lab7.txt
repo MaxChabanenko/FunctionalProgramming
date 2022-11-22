@@ -1,0 +1,41 @@
+(let ((port (open-output-file "C:\\Users\\Maksi\\Desktop\\ipz41\\functional"))) 
+(write '(_vari) port)
+(write '(123var) port)
+(write '(var wrong) port)
+(close-output-port port))
+
+;==============ВИВЕДЕННЯ файлу на екран =================
+(define in (open-input-file "C:\\Users\\Maksi\\Desktop\\ipz41\\functional"))
+(read in)
+(read in)
+(read in)
+(close-input-port in)
+
+;==========кількість елементів списку=======================
+(define (my-length lis)
+   (cond ((null? lis)
+          0)
+         (else
+          (+ 1 (my-length (cdr lis))))))
+          
+(define (rule1 word)
+(define firstCh (car (string->list word)))
+ (or (char-alphabetic? firstCh) (equal? firstCh #\_)))
+ 
+(define (rule2 word)
+    (define res #t)
+(for ([ch (string->list word)])
+  (when (not (or (char-alphabetic? ch) (or (char-numeric? ch) (equal? ch #\_))))
+  (set! res #f)))
+ res)
+ 
+(define (rule3 word)
+(< (my-length (string->list word)) 64))
+
+(define (check word)
+(and (rule1 word) (and (rule2 word) (rule3 word))))
+
+(define file '("_vari" "123var" "var wrong" "wr/ong"))
+(for ([e file])
+  (displayln e)
+  (displayln (check e)))
